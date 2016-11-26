@@ -1,7 +1,7 @@
 <template>
 <div class="date-axis">
   <transition-group name="fade" tag="ul" class="week-container">
-    <div class="week-overlay"></div>
+    <div class="week-overlay" key="overlay"></div>
     <li
       v-for="week in weeks"
       class="week-item"
