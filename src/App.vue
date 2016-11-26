@@ -1,28 +1,33 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <home/>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import Home from './components/Home'
 
 export default {
   name: 'app',
+
   components: {
-    Hello
+    Home
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus">
+
+body
+  font-size 16px
+
+*
+*:before
+*:after
+  box-sizing border-box
+
+#app
+  font-family 'Helvetica Neue', Arial, 'Open Sans', 'Hiragino Sans GB', -apple-system, 'Lantinghei SC', 'Microsoft Yahei', sans-serif
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
 </style>
