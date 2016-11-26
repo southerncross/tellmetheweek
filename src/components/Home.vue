@@ -4,6 +4,9 @@
       :curr-week-start="currWeekStart"
       :curr-week-start-change="currWeekStartChange"
     />
+    <info-panel
+      :curr-week-start="currWeekStart"
+    />
   </div>
 </template>
 
@@ -11,12 +14,14 @@
 import moment from 'moment'
 
 import DateAxis from './DateAxis'
+import InfoPanel from './InfoPanel'
 
 export default {
   name: 'Home',
 
   components: {
-    DateAxis
+    DateAxis,
+    InfoPanel
   },
 
   data() {
@@ -38,5 +43,5 @@ export default {
 
 <style lang="stylus" scoped>
 .home
-  margin-top 10%
+  margin-top 20%
 </style>
