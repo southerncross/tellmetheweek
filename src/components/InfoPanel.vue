@@ -12,25 +12,27 @@
 </template>
 
 <script>
+import { msToWeekCnt } from '../utils'
+
 export default {
   name: 'InfoPanel',
 
   props: {
-    currWeekStart: {
-      type: Object,
+    currWeekMonday: {
+      type: Date,
       required: true
     }
   },
 
   computed: {
     type() {
-      return ['大周', '小周'][this.currWeekStart.week() % 2]
+      return ['大周', '小周'][msToWeekCnt(this.currWeekMonday.getTime()) % 2]
     },
     rest() {
-      return ['双休', '单休'][this.currWeekStart.week() % 2]
+      return ['双休', '单休'][msToWeekCnt(this.currWeekMonday.getTime()) % 2]
     },
     oncaller() {
-      return ['郭麟', '李国兴', '李舜阳', '王思航', '谢昊', '陈奕钧', '吴欣剑'][this.currWeekStart.week() % 7]
+      return ['王思航', '谢昊', '陈奕钧', '吴欣剑', '郭麟', '李国兴', '李舜阳'][msToWeekCnt(this.currWeekMonday.getTime()) % 7]
     }
   }
 }

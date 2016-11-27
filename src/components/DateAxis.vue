@@ -5,18 +5,18 @@
     <li
       v-for="week in weeks"
       class="week-item"
-      :key="week.start.format('YYYYMMDD')"
-      @click="currWeekStartChange(week.start)"
-      :style="{ cursor: Math.abs(week.start.diff(currWeekStart, 'weeks')) <= 2 ? 'pointer' : 'initial' }"
+      :key="`${week.start.getDate()}-${week.end.getDate()}`"
+      @click="currWeekMondayChange(week.start)"
+      :style="{ cursor: week.clickable ? 'pointer' : 'initial' }"
     >
       <div class="date">
-        <div class="month">{{week.start.format('M月')}}</div>
-        <div class="day">{{week.start.format('D日')}}</div>
+        <div class="month">{{week.start.getMonth() + 1}}月</div>
+        <div class="day">{{week.start.getDate() + 1}}日</div>
       </div>
       ~
       <div class="date">
-        <div class="month">{{week.end.format('M月')}}</div>
-        <div class="day">{{week.end.format('D日')}}</div>
+        <div class="month">{{week.end.getMonth() + 1}}月</div>
+        <div class="day">{{week.end.getDate() + 1}}日</div>
       </div>
     </li>
   </transition-group>
@@ -24,48 +24,33 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { WEEK_MS, DAY_MS } from '../constants'
 
 export default {
   name: 'DateAxis',
 
   props: {
-    currWeekStart: {
-      type: Object,
+    currWeekMonday: {
+      type: Date,
       required: true
     },
-    currWeekStartChange: {
+    currWeekMondayChange: {
       type: Function,
       required: true
     }
   },
 
   computed: {
-    weeks: function() {
+    weeks() {
       const res = []
-      for (let i = 4; i > 0; i--) {
+      for (let i = -4; i <= 4; i++) {
         res.push({
-          start: moment(this.currWeekStart).subtract(i, 'weeks').startOf('week'),
-          end: moment(this.currWeekStart).subtract(i, 'weeks').endOf('week')
-        })
-      }
-      res.push({
-        start: moment(this.currWeekStart).startOf('week'),
-        end: moment(this.currWeekStart).endOf('week')
-      })
-      for (let i = 1; i <= 4; i++) {
-        res.push({
-          start: moment(this.currWeekStart).add(i, 'weeks').startOf('week'),
-          end: moment(this.currWeekStart).add(i, 'weeks').endOf('week')
+          start: new Date(this.currWeekMonday.getTime() + i * WEEK_MS),
+          end: new Date(this.currWeekMonday.getTime() + (i * 7 + 6) * DAY_MS),
+          clickable: Math.abs(i) <= 2
         })
       }
       return res
-    }
-  },
-
-  methods: {
-    getWeekDate(weekStart) {
-      return `${weekStart.format('M/D')} - ${moment(weekStart).endOf('week').format('M/D')}`
     }
   }
 }
@@ -139,6 +124,7 @@ cursor-size = 10px
   line-height week-height
   border 1px solid black
   border-left 0
+  user-select none
 
 .fade-move
   transition all .5s

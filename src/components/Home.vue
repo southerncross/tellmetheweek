@@ -1,17 +1,18 @@
 <template>
   <div class="home">
     <date-axis
-      :curr-week-start="currWeekStart"
-      :curr-week-start-change="currWeekStartChange"
+      :curr-week-monday="currWeekMonday"
+      :curr-week-monday-change="currWeekMondayChange"
     />
     <info-panel
-      :curr-week-start="currWeekStart"
+      :curr-week-monday="currWeekMonday"
     />
   </div>
 </template>
 
 <script>
-import moment from 'moment'
+import { DAY_MS } from '../constants'
+import { msToWeekCnt } from '../utils'
 
 import DateAxis from './DateAxis'
 import InfoPanel from './InfoPanel'
@@ -25,16 +26,19 @@ export default {
   },
 
   data() {
+    const date = new Date()
+    const day = date.getDay()
+    const currWeekMonday = new Date(date.getTime() - ((day + 6) % 7 + 1) * DAY_MS)
     return {
-      currWeekStart: moment().startOf('week')
+      currWeekMonday
     }
   },
 
   methods: {
-    currWeekStartChange(weekStart) {
-      const diff = Math.abs(weekStart.diff(this.currWeekStart, 'weeks'))
-      if (diff > 0 && diff <= 2) {
-        this.currWeekStart = weekStart
+    currWeekMondayChange(monday) {
+      const weekDiff = msToWeekCnt(Math.abs(monday.getTime() - this.currWeekMonday.getTime()))
+      if (weekDiff > 0 && weekDiff <= 2) {
+        this.currWeekMonday = monday
       }
     }
   }
