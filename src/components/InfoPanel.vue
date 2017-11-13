@@ -13,7 +13,7 @@
 
 <script>
 import { msToWeekCnt } from '../utils'
-import { ONCALLERS } from '../constants'
+import { ONCALLERS, ONCALLER_OFFET } from '../constants'
 
 export default {
   name: 'InfoPanel',
@@ -33,7 +33,7 @@ export default {
       return ['双休', '单休'][msToWeekCnt(this.currWeekMonday.getTime()) % 2]
     },
     oncaller() {
-      return ONCALLERS[msToWeekCnt(this.currWeekMonday.getTime()) % ONCALLERS.length]
+      return ONCALLERS[(msToWeekCnt(this.currWeekMonday.getTime()) + ONCALLER_OFFET) % ONCALLERS.length]
     }
   }
 }
